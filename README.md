@@ -50,15 +50,16 @@ Además, se desarrollaron varios componentes reutilizables, como tarjetas, panel
 **Cómo ejecutar el proyecto (local)**
 
 1) Backend
-   entrar a la carpeta backend.
-   entrar a las subcarpetas que tiene, hasta llegar a los archivos principales.
-   resturar los paquetes dotnet
-   nota: el los puertos pueden variar de máquina. para este caso corrió en el 7024.
-   Base de datos: SQLite (se genera automáticamente al correr el backend si está configurado con EnsureCreated o migraciones).
+  * entrar a la carpeta backend.
+  * entrar a las subcarpetas que tiene, hasta llegar a los archivos principales.
+  * resturar los paquetes dotnet
+  * nota: el los puertos pueden variar de máquina. para este caso corrió en el 7024.
+  * Base de datos: SQLite (se genera automáticamente al correr el backend si está configurado con EnsureCreated o migraciones).
 
-2) ir a la carpeta client
-   instalar las depednecias
-   ejecutar npm run dev
+2) Front
+   * ir a la carpeta client
+   * instalar las depednecias
+   * ejecutar npm run dev
 
 **varaibles de configuracion**
 
