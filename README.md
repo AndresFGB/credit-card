@@ -1,12 +1,12 @@
 # Aplicación de tarejtas de crédito
-La prática se realiz+o con .NET 8 y React 
+La prática se realizó con .NET 8 y React 
 
 Aplicación web para gestionar tarjetas de crédito, realizar pagos y visualizar el historial de transacciones.
 ## Stack
 - **Backend:** .NET 8 (ASP.NET Core Web API) + EF Core + SQLite
 - **Frontend:** React + TypeScript + Vite + TailwindCSS
 - **Auth:** Login simple por credenciales (demo)
-- 
+ 
 La aplicación fue diseñada priorizando simplicidad, claridad y funcionalidad, teniendo en cuenta las limitaciones de tiempo propias de una prueba técnica.
 
 **Backend**
@@ -48,3 +48,37 @@ El frontend se organiza en cuatro páginas principales:
 Además, se desarrollaron varios componentes reutilizables, como tarjetas, paneles con scroll y botones de acción, con el objetivo de mantener un código limpio y fácil de mantener.
 
 **Cómo ejecutar el proyecto (local)**
+
+1) Backend
+   entrar a la carpeta backend.
+   entrar a las subcarpetas que tiene, hasta llegar a los archivos principales.
+   resturar los paquetes dotnet
+   nota: el los puertos pueden variar de máquina. para este caso corrió en el 7024.
+   Base de datos: SQLite (se genera automáticamente al correr el backend si está configurado con EnsureCreated o migraciones).
+
+2) ir a la carpeta client
+   instalar las depednecias
+   ejecutar npm run dev
+
+**varaibles de configuracion**
+
+en el fronten, en el archivo:
+client/src/api/config.ts
+Debe de apuntar al backend.
+
+**Credenciales demo**
+
+Ajusta según lo que tengas sembrado en tu BD:
+Username: admin
+
+Nota: cobros activos esta hardcodeado por temas de tiempo pero simulan el requerimiento solicitado.
+
+
+
+
+
+
+
+   
+
+
