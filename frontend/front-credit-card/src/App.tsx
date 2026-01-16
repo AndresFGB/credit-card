@@ -1,19 +1,20 @@
-
+import { Routes, Route, Navigate } from "react-router-dom";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import Cards from "./pages/Cards";
+import Transactions from "./pages/Transactions";
 
 function App() {
-
   return (
-  <div className="min-h-screen flex items-center justify-center bg-red-900">
-      <div className="rounded-xl bg-slate-800 p-8 shadow-xl text-white">
-        <h1 className="text-3xl font-bold mb-2">
-          Credit Card App dfhfgh
-        </h1>
-        <p className="text-slate-400">
-          Tailwind 3.4.17 funcionando 🚀
-        </p>
-      </div>
-    </div>
-  )
+    <Routes>
+      <Route path="/login" element={<Login />} />
+
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/cards" element={<Cards/>}></Route>
+      <Route path="/transactions" element={<Transactions/>}></Route>
+      <Route path="*" element={<Navigate to="/login" />} />
+    </Routes>
+  );
 }
 
-export default App
+export default App;

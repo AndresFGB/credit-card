@@ -1,4 +1,6 @@
-﻿namespace CreditCardApi.Domain.Models
+﻿using System.Text.Json.Serialization;
+
+namespace CreditCardApi.Domain.Models
 {
     public class Transaction
     {
@@ -8,9 +10,10 @@
 
         public decimal Amount { get; set; }
         public DateTime CreatedAt { get; set; }
-        public string Description { get; set; } = null!;
-
-        public User User { get; set; } = null!;
-        public CreditCard CreditCard { get; set; } = null!;
+        public string Description { get; set; }
+        [JsonIgnore]
+        public User ? User { get; set; } = null;
+        [JsonIgnore]
+        public CreditCard? CreditCard { get; set; } 
     }
 }

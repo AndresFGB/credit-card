@@ -1,5 +1,6 @@
 ﻿using CreditCardApi.Data;
 using CreditCardApi.Domain.Models;
+using CreditCardApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,10 +11,12 @@ namespace CreditCardApi.Presentation.Controllers
     public class CreditCardsController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly GeneratorService _generator;
 
-        public CreditCardsController(AppDbContext context)
+        public CreditCardsController(AppDbContext context, GeneratorService generator)
         {
             _context = context;
+            _generator = generator;
         }
 
         //GET: api/CreditCards
@@ -34,11 +37,26 @@ namespace CreditCardApi.Presentation.Controllers
             if (card.UserId <= 0)
                 return BadRequest("UserId requerido");
 
+            if (string.IsNullOrWhiteSpace(card.Type) || card.Type == "AUTO" )
+                card.Type = _generator.GenerateCardType();
+
+            if (string.IsNullOrWhiteSpace(card.Last4) || card.Last4 == "0000" )
+                card.Last4 = _generator.GenerateLast4();
+
+            if (card.CreditLimit <= 0)
+                card.CreditLimit = _generator.GenerateCreditLimit();
+
+            if (card.Balance <= 0)
+                card.Balance = _generator.GenerateInitialBalance(card.CreditLimit);
+
             _context.CreditCards.Add(card);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetByUserId),
-                new { userId = card.UserId }, card);
+            return CreatedAtAction(
+                nameof(GetByUserId),
+                new { userId = card.UserId },
+                card
+            );
         }
 
         //PUT
@@ -51,18 +69,31 @@ namespace CreditCardApi.Presentation.Controllers
             if (existingCard == null)
                 return NotFound();
 
-            existingCard.Type = updatedCard.Type;
-            existingCard.Last4 = updatedCard.Last4;
-            existingCard.CreditLimit = updatedCard.CreditLimit;
-            existingCard.Balance = updatedCard.Balance;
+            if (!string.IsNullOrWhiteSpace(updatedCard.Last4) &&
+       updatedCard.Last4.Length == 4 &&
+       updatedCard.Last4.All(char.IsDigit))
+            {
+                existingCard.Last4 = updatedCard.Last4;
+            }
+
+            if (!string.IsNullOrWhiteSpace(updatedCard.Type))
+            {
+                existingCard.Type = updatedCard.Type;
+            }
+            if (updatedCard.CreditLimit > 0)
+            {
+                existingCard.CreditLimit = updatedCard.CreditLimit;
+
+                if (existingCard.Balance > existingCard.CreditLimit)
+                    existingCard.Balance = existingCard.CreditLimit;
+            }
 
             await _context.SaveChangesAsync();
-            return NoContent();
+            return Ok(existingCard);
         }
 
         //DELETE 
         [HttpDelete("user/{userId}/{id}")]
-
         public async Task<IActionResult> DeleteById(int userId, int id)
         {
             var card = await _context.CreditCards
